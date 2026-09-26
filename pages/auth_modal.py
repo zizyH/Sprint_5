@@ -7,7 +7,7 @@ class AuthModal(BasePage):
         self.click(AuthModalLocators.BTN_NO_ACCOUNT)
 
     def fill_registration_form(self, email, password):
-        self.type(AuthModalLocators.INPUT_EMAIL, email) 
+        self.type(AuthModalLocators.INPUT_EMAIL, email)
         self.type(AuthModalLocators.INPUT_PASSWORD, password)
         self.type(AuthModalLocators.INPUT_SUBMIT_PASSWORD, password)
 

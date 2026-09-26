@@ -1,11 +1,10 @@
-import uuid
-
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 from config import BASE_URL
+from helpers.generators import generate_unique_user
 from pages.main_page import MainPage
 from pages.auth_modal import AuthModal
 
@@ -20,37 +19,20 @@ def driver():
 
 
 @pytest.fixture
-def unique_email():
-    return f"user_{uuid.uuid4().hex[:8]}@test.com"
+def registered_user(driver):
+    """Предусловие: регистрирует нового пользователя и возвращает его данные."""
+    user = generate_unique_user()
 
-
-@pytest.fixture
-def unique_user(unique_email):
-    return {
-        "email": unique_email,
-        "password": "Password123"
-    }
-
-
-@pytest.fixture
-def existing_user():
-    return {
-        "email": "existing_user@test.com",
-        "password": "Password123"
-    }
-
-
-@pytest.fixture
-def registered_user(driver, unique_user):
     driver.get(BASE_URL)
     main_page = MainPage(driver)
     auth_modal = AuthModal(driver)
 
     main_page.click_login_registration()
     auth_modal.click_no_account()
-    auth_modal.fill_registration_form(unique_user["email"], unique_user["password"])
+    auth_modal.fill_registration_form(user["email"], user["password"])
     auth_modal.click_create_account()
 
-    main_page.get_user_name()
+    # Ждём, пока в шапке появится имя пользователя — значит регистрация прошла
+    assert main_page.is_user_logged_in(), "Регистрация в фикстуре не удалась"
 
-    return unique_user
+    return user

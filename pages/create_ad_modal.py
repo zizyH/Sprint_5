@@ -1,5 +1,3 @@
-from selenium.webdriver.common.by import By
-
 from pages.base_page import BasePage
 from locators.locators import CreateAdModalLocators
 
@@ -15,13 +13,11 @@ class CreateAdModal(BasePage):
 
     def select_category(self, category):
         self.click(CreateAdModalLocators.DROPDOWN_CATEGORY_ARROW)
-        locator = (By.XPATH, f"//button[.//span[text()='{category}']]")
-        self.click(locator)
+        self.click(CreateAdModalLocators.option_category(category))
 
     def select_city(self, city):
         self.click(CreateAdModalLocators.DROPDOWN_CITY_ARROW)
-        locator = (By.XPATH, f"//button[.//span[text()='{city}']]")
-        self.click(locator)
+        self.click(CreateAdModalLocators.option_city(city))
 
     def select_condition_new(self):
         self.js_click(CreateAdModalLocators.RADIO_NEW)

@@ -37,8 +37,22 @@ class CreateAdModalLocators:
 
     BTN_PUBLISH = (By.XPATH, "//button[text()='Опубликовать']")
 
+    @staticmethod
+    def option_category(category):
+        """Локатор опции категории по её названию."""
+        return By.XPATH, f"//button[.//span[text()='{category}']]"
+
+    @staticmethod
+    def option_city(city):
+        """Локатор опции города по его названию."""
+        return By.XPATH, f"//button[.//span[text()='{city}']]"
+
 
 class ProfilePageLocators:
     """Локаторы страницы профиля."""
     SECTION_MY_ADS = (By.XPATH, "//*[text()='Мои объявления']")
-    AD_CARD_BY_TITLE = "//*[text()='{title}']"
+
+    @staticmethod
+    def ad_card_by_title(title):
+        """Локатор карточки объявления по её заголовку."""
+        return By.XPATH, f"//*[text()='{title}']"
